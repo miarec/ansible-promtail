@@ -53,12 +53,10 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies
-        run: pip3 install -r ansible/roles/loki/test-requirements.txt
+        run: pip3 install -r molecule/default/test-requirements.txt
 
       - name: Run molecule tests
-        run: |
-          cd ansible/roles/loki
-          molecule test
+        run: molecule test
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
