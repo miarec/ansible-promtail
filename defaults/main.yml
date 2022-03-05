@@ -1,6 +1,6 @@
 ---
 # promtail install variables
-download_url: "https://github.com/grafana/promtail/releases/download/v{{ promtail_version }}/promtail-{{ os_type }}-{{ arch }}.zip"
+download_url: "https://github.com/grafana/loki/releases/download/v{{ promtail_version }}/promtail-{{ os_type }}-{{ arch }}.zip"
 promtail_http_listen_port: 9080
 promtail_grpc_listen_port: 0
 promtail_config_dir: "/etc/promtail"
