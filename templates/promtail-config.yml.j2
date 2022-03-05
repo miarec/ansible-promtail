@@ -1,0 +1,21 @@
+server:
+  http_listen_port: {{ promtail_http_listen_port }}
+  grpc_listen_port: {{ promtail_grpc_listen_port }}
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://{{ loki_url }}:{{ loki_listen_port }}/loki/api/v1/push
+
+scrape_configs:
+{% for dict_items in scrape_jobs %}
+- job_name: {{dict_item['job_name']}}
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: {{dict_item['label']}}
+      __path__: {{dict_item['path']}}
+{% endfor %}
+

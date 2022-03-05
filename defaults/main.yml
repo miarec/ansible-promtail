@@ -1,0 +1,23 @@
+---
+# promtail install variables
+download_url: "https://github.com/grafana/promtail/releases/download/v{{ promtail_version }}/promtail-{{ os_type }}-{{ arch }}.zip"
+promtail_http_listen_port: 9080
+promtail_grpc_listen_port: 0
+promtail_config_dir: "/etc/promtail"
+promtail_config_file: "promtail-config.yml"
+promtail_bin_dir: "/usr/local/bin"
+promtail_bin: "promtail"
+promtail_local_storage_dir: "etc/promtail"
+promtail_version: "2.4.2"
+os_type: "linux"
+arch: "amd64"
+# promtail config variables
+loki_url: "1.1.1.1"
+loki_http_listen_port: 3100
+loki_grpc_port: 0
+promtail_hostname: "promatil"
+scrape_jobs: [
+  {'job_name':'{{ promtail_hostname }}-systemd-journal','label':'journal','path':'/var/log/journal'},
+  {'job_name':'{{ promatil_hostname }}apache','path':'/var/log/apache2/*','label':'apache'},
+  ]
+

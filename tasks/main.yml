@@ -1,0 +1,90 @@
+---
+# Check if promtail is installed
+- name: Check if promtail is already installed
+  stat:
+    path: "{{ promtail_bin_dir }}/{{ promtail_bin }}"
+  register: __promtail_stat
+
+- name: Check Promtail version
+  command: cat /etc/promtail/promtail-version
+  register: __promtail_version
+  ignore_errors: true
+  changed_when: false
+  when: __promtail_stat.stat.exists
+
+# Download and Inflate promtail Release
+- name: Download and Inflate promtail
+  block:
+    - name: Download promtail release
+      get_url:
+        url: "{{ download_url }}"
+        dest: "/tmp"
+        mode: 0644
+      register: _download_release
+      until: _download_release is succeeded
+      retries: 5
+      delay: 2
+
+    - name: Unpack promtail release
+      unarchive:
+        src: "/tmp/promtail-{{ os_type }}-{{ arch }}.zip"
+        dest: "/tmp"
+        remote_src: true
+        mode: 0644
+
+    - name: Copy promtail to {{ promtail_bin_dir }}
+      copy:
+        src: "/tmp/promtail-{{ os_type }}-{{ arch }}"
+        dest: "{{ promtail_bin_dir }}/{{ promtail_bin }}"
+        mode: 0755
+        owner: root
+        group: root
+        remote_src: true
+
+    - name: Clean-up
+      file:
+        path: "/tmp/{{ item }}"
+        state: absent
+      loop:
+        - "promtail-{{ os_type }}-{{ arch }}"
+        - "promtail-{{ os_type }}-{{ arch }}.zip"
+
+  when: not __promtail_stat.stat.exists or
+        __promtail_version.stdout != promtail_version
+
+# Create config and version file
+- name: Create Config, Version and systemd Files
+  block:
+    - name: Create Config Directory for promtail
+      file:
+        mode: 0755
+        path: "{{ promtail_config_dir }}"
+        state: directory
+
+    - name: Create Config file
+      template:
+        src: "promtail-config.yml.j2"
+        dest: "{{ promtail_config_dir }}/{{ promtail_config_file }}"
+        mode: 0644
+
+    - name: Create Version file
+      template:
+        src: "promtail-version.j2"
+        dest: "{{ promtail_config_dir }}/promtail-version"
+        mode: 0644
+
+    - name: Install systemd-unit
+      template:
+        src: "systemd-promtail.j2"
+        dest: "/etc/systemd/system/promtail.service"
+        mode: 0644
+
+  when: not __promtail_stat.stat.exists or
+        __promtail_version.stdout != promtail_version
+
+# Start and Enable systemd service
+- name: Start promtail service
+  systemd:
+    name: promtail
+    enabled: true
+    state: started
