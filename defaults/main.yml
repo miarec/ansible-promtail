@@ -18,4 +18,4 @@ loki_grpc_port: 0
 promtail_hostname: "promatil"
 scrape_jobs: [
   {'job_name':'{{ promtail_hostname }}-systemd-journal', 'label':'journal', 'path':'/var/log/journal'},
-  {'job_name':'{{ promatil_hostname }}apache', 'path':'/var/log/apache2/*', 'label':'apache'}]
+  {'job_name':'{{ promtail_hostname }}-apache', 'path':'/var/log/apache2/*', 'label':'apache'}]
