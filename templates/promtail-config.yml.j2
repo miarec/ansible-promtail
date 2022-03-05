@@ -9,7 +9,7 @@ clients:
   - url: http://{{ loki_url }}:{{ loki_http_listen_port }}/loki/api/v1/push
 
 scrape_configs:
-{% for dict_items in scrape_jobs %}
+{% for dict_item in scrape_jobs %}
 - job_name: {{dict_item['job_name']}}
   static_configs:
   - targets:
