@@ -61,20 +61,20 @@ To resolve this, part of the install process is to create a file that contains t
 A Github Action is configured to test this module everytime there is a push to the master branch or on pull requests
 
 The following items are tested
-    - `yamllint` to verify proper yaml syntax
-    - `ansible-lint` to verify proper ansible syntax
-    - `molecule` testing
-        - Deploy playbook against docker containers with following distros
-        ```
-        matrix:
-            distro:
-            - centos7
-            - centos8
-            - ubuntu1804
-            - ubuntu2004
-        ```
-        - Run `testinfra` testing against each container for the following
-            - all directories are present
-            - all files are present
-            - promtail service is running and enabled
-            - server is listening on the configured port
+- `yamllint` to verify proper yaml syntax
+- `ansible-lint` to verify proper ansible syntax
+- `molecule` testing
+- Deploy playbook against docker containers with following distros
+```
+matrix:
+  distro:
+   - centos7
+   - centos8
+   - ubuntu1804
+   - ubuntu2004
+```
+- Run `testinfra` testing against each container for the following
+  - all directories are present
+  - all files are present
+  - promtail service is running and enabled
+  - server is listening on the configured port
