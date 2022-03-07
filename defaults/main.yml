@@ -15,7 +15,7 @@ arch: "amd64"
 loki_url: "1.1.1.1"
 loki_http_listen_port: 3100
 loki_grpc_port: 0
-promtail_hostname: "promatil"
+promtail_hostname: "promtail"
 scrape_jobs: [
   {'job_name':'{{ promtail_hostname }}-systemd-journal', 'label':'journal', 'path':'/var/log/journal'},
   {'job_name':'{{ promtail_hostname }}-apache', 'path':'/var/log/apache2/*', 'label':'apache'}]
