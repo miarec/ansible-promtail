@@ -40,4 +40,4 @@ def test_socket(host):
     ]
     for socket in sockets:
         s = host.socket(socket)
-        assert s.
+        assert s.is_listening
