@@ -9,7 +9,7 @@ go_arch_map:
 go_arch: "{{ go_arch_map[ansible_architecture] | default(ansible_architecture) }}"
 
 promtail_dependencies:
- - unzip
+  - unzip
 
 promtail_system_group: "promtail"
 promtail_system_user: "promtail"

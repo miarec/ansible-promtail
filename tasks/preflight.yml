@@ -34,5 +34,3 @@
   when: promtail_version == "latest"
   delegate_to: localhost
   run_once: true
-
-

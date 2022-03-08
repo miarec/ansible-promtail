@@ -46,8 +46,6 @@
   until: _download_binary is succeeded
   retries: 5
   delay: 2
-  # delegate_to: localhost
-  # check_mode: false
 
 - name: Unpack promtail binary
   become: false
@@ -55,8 +53,6 @@
     src: "/tmp/promtail-linux-{{ go_arch }}.zip"
     dest: "/tmp"
     creates: "/tmp/promtail-linux-{{ go_arch }}/promtail"
-  # delegate_to: localhost
-  # check_mode: false
 
 - name: Create /usr/local/bin
   file:
