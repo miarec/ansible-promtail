@@ -1,6 +1,5 @@
 ---
 # promtail install variables
-download_url: "https://github.com/grafana/loki/releases/download/v{{ promtail_version }}/promtail-{{ os_type }}-{{ arch }}.zip"
 promtail_http_listen_port: 9080
 promtail_grpc_listen_port: 0
 promtail_config_dir: "/etc/promtail"
@@ -8,9 +7,7 @@ promtail_config_file: "promtail-config.yml"
 promtail_bin_dir: "/usr/local/bin"
 promtail_bin: "promtail"
 promtail_local_storage_dir: "etc/promtail"
-# promtail_version: "2.4.2"
-# os_type: "linux"
-# arch: "amd64"
+
 # promtail config variables
 loki_url: "loki.internal.local"
 loki_http_listen_port: 3100

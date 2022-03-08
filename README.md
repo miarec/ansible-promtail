@@ -39,7 +39,7 @@ scrape_jobs: [
 - hosts: server
 
   vars:
-    promtail_version: "2.4.2"
+    promtail_hostname: "server1"
     loki_url: "10.0.0.1"
     scrape_jobs: [
         {'job_name':'{{ promtail_hostname }}-systemd-journal', 'label':'journal', 'path':'/var/log/journal'},
@@ -49,13 +49,6 @@ scrape_jobs: [
   roles:
     - ansible-promtail
 ```
-
-## Whats with the Verison file?
-Eagle eyed engineers might have noticed that the version file action is not part of the Grafana Loki documentation
-
-In order to allow for idempotency, not only do we need to check that Loki is install and running, we need to verify the version,  this is a challenge because loki is not installed with a traditional package manager like `apt` or `yum`.
-
-To resolve this, part of the install process is to create a file that contains the installed version,   this file can be read and registered to a variable `__promtail_version` that can be verified against input variable `promtail_version`
 
 ## CICD
 A Github Action is configured to test this module everytime there is a push to the master branch or on pull requests
