@@ -8,11 +8,11 @@ promtail_config_file: "promtail-config.yml"
 promtail_bin_dir: "/usr/local/bin"
 promtail_bin: "promtail"
 promtail_local_storage_dir: "etc/promtail"
-promtail_version: "2.4.2"
-os_type: "linux"
-arch: "amd64"
+# promtail_version: "2.4.2"
+# os_type: "linux"
+# arch: "amd64"
 # promtail config variables
-loki_url: "1.1.1.1"
+loki_url: "loki.internal.local"
 loki_http_listen_port: 3100
 loki_grpc_port: 0
 promtail_hostname: "promtail"

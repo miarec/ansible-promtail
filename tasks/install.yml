@@ -1,0 +1,76 @@
+---
+- name: Install dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  register: _install_dep_packages
+  until: _install_dep_packages is success
+  retries: 5
+  delay: 2
+  with_items: "{{ promtail_dependencies }}"
+
+- name: Create the promtail group
+  group:
+    name: "{{ promtail_system_group }}"
+    state: present
+    system: true
+  when:
+    - promtail_system_group != "root"
+
+- name: Create the promtail user
+  user:
+    name: "{{ promtail_system_user }}"
+    groups: "{{ promtail_system_group }}"
+    append: true
+    shell: /usr/sbin/nologin
+    system: true
+    createhome: false
+    home: /
+  when:
+    - promtail_system_user != "root"
+
+- name: create promtail config directory
+  file:
+    path: "{{ promtail_config_dir }}"
+    state: directory
+    owner: "{{ promtail_system_user }}"
+    group: "{{ promtail_system_group }}"
+    mode: 0755
+
+- name: Download promtail binary
+  become: false
+  get_url:
+    url: "https://github.com/grafana/loki/releases/download/v{{ promtail_version }}/promtail-linux-{{ go_arch }}.zip"
+    dest: "/tmp"
+  register: _download_binary
+  until: _download_binary is succeeded
+  retries: 5
+  delay: 2
+  # delegate_to: localhost
+  # check_mode: false
+
+- name: Unpack promtail binary
+  become: false
+  unarchive:
+    src: "/tmp/promtail-linux-{{ go_arch }}.zip"
+    dest: "/tmp"
+    creates: "/tmp/promtail-linux-{{ go_arch }}/promtail"
+  # delegate_to: localhost
+  # check_mode: false
+
+- name: Create /usr/local/bin
+  file:
+    path: /usr/local/bin
+    state: directory
+    mode: 0755
+
+- name: Propagate promtail binaries
+  copy:
+    src: "/tmp/promtail-linux-{{ go_arch }}/promtail"
+    dest: "/usr/local/bin/promtail"
+    mode: 0755
+    owner: root
+    group: root
+    remote_src: true
+  notify: restart promtail
+  when: not ansible_check_mode
