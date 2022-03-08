@@ -53,6 +53,7 @@
     src: "/tmp/promtail-linux-{{ go_arch }}.zip"
     dest: "/tmp"
     creates: "/tmp/promtail-linux-{{ go_arch }}/promtail"
+    remote_src: true
 
 - name: Create /usr/local/bin
   file:
