@@ -28,6 +28,6 @@
         - prereqs
 
   roles:
-    - role: ansible-role-promtail
+    - role: ansible-promtail
       tags:
         - promtail
