@@ -1,4 +1,4 @@
-# ansible-role-promtail
+# ansible-promtail
 ansible role to install promtail as a service for log aggregation locally detailed [here](https://grafana.com/docs/loki/latest/installation/local/)
 
 ## Overview
@@ -47,7 +47,7 @@ scrape_jobs: [
         {'job_name':'{{ promtail_hostname }}-miarec_speech', 'label':'miarec_speech', 'path':'/var/log/miarec_speech/*', }]
 
   roles:
-    - ansible-role-promtail
+    - ansible-promtail
 ```
 
 ## Whats with the Verison file?
