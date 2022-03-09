@@ -16,6 +16,6 @@ loki_url: "{{ loki_dns_host }}.{{ loki_dns_domain }}"
 
 loki_http_listen_port: 3100
 loki_grpc_port: 0
-promtail_hostname: "promtail"
+promtail_hostname: "promtail-client"
 scrape_jobs: [
-  {'job_name':'{{ promtail_hostname }}-systemd-journal', 'label':'journal', 'path':'/var/log/journal'}]
+  {'job_name':'miarec_speech', 'label':'{{ promtail_hostname }}-miarec_specch', 'path':'/var/log/miarec_speech/*'}]

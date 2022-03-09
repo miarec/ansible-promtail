@@ -16,12 +16,12 @@ ansible role to install promtail as a service for log aggregation locally detail
 
 ## Role Variables
 The following variables define how promtail reports to loki
+
 Example using IP address, loki server at `1.2.3.4:3100`
 ```
 loki_url: "1.2.3.4"             # IP address of the Loki Server
 loki_http_listen_port: 3100     # TCP port Loki server is listening
 loki_grpc_port: 0               # GRPC port Loki server listens, 0 means a random port
-promtail_hostname: "promtail"   # Unique name for Promtail endpoint to be identified by
 ```
 Example using FQDN, loki server at `loki.example.com:3105`
 ```
@@ -33,7 +33,7 @@ loki_http_listen_port: 3105       # TCP port Loki server is listening
 The following variable defines what promtail will report to loki
 ```
 scrape_jobs: [
-  {'job_name':'{{ promtail_hostname }}-systemd-journal', 'label':'journal', 'path':'/var/log/journal'},
+  {'job_name':'{{ promtail_hostname }}-systemd-journal', 'label':'journal', 'path':'/var/log/journal/*'},
   {'job_name':'{{ promtail_hostname }}-apache', 'label':'apache', 'path':'/var/log/apache2/*', }]
 ```
 
@@ -50,9 +50,8 @@ scrape_jobs: [
     promtail_hostname: "server1"
     loki_url: "10.0.0.1"
     scrape_jobs: [
-        {'job_name':'{{ promtail_hostname }}-systemd-journal', 'label':'journal', 'path':'/var/log/journal'},
-        {'job_name':'{{ promtail_hostname }}-apache', 'label':'apache', 'path':'/var/log/apache2/*', },
-        {'job_name':'{{ promtail_hostname }}-miarec_speech', 'label':'miarec_speech', 'path':'/var/log/miarec_speech/*', }]
+        {'job_name':'apache', 'label':'{{ promtail_hostname }}-apache', 'path':'/var/log/apache2/*', },
+        {'job_name':'miarec_speech', 'label':'{{ promtail_hostname }}-miarec_speech', 'path':'/var/log/miarec_speech/*', }]
 
   roles:
     - ansible-promtail

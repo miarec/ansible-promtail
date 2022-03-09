@@ -9,6 +9,11 @@ clients:
   - url: http://{{ loki_url }}:{{ loki_http_listen_port }}/loki/api/v1/push
 
 scrape_configs:
+- job_name: systemd-journal
+  journal:
+    path: /var/log/journal
+    labels:
+      job: {{ promtail_hostname }}-systemd-journal
 {% for dict_item in scrape_jobs %}
 - job_name: {{dict_item['job_name']}}
   static_configs:
