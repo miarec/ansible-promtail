@@ -16,12 +16,20 @@ ansible role to install promtail as a service for log aggregation locally detail
 
 ## Role Variables
 The following variables define how promtail reports to loki
+Example using IP address, loki server at `1.2.3.4:3100`
 ```
-loki_url: "1.1.1.1"             # IP address or FQDN of the Loki Server
+loki_url: "1.2.3.4"             # IP address of the Loki Server
 loki_http_listen_port: 3100     # TCP port Loki server is listening
 loki_grpc_port: 0               # GRPC port Loki server listens, 0 means a random port
 promtail_hostname: "promtail"   # Unique name for Promtail endpoint to be identified by
 ```
+Example using FQDN, loki server at `loki.example.com:3105`
+```
+loki_dns_host: "loki"             # hostname portion of Loki FQDN
+loki_dns_domain: "example.com"    # hostname portion of Loki FQDN
+loki_http_listen_port: 3105       # TCP port Loki server is listening
+```
+
 The following variable defines what promtail will report to loki
 ```
 scrape_jobs: [
@@ -29,7 +37,7 @@ scrape_jobs: [
   {'job_name':'{{ promtail_hostname }}-apache', 'label':'apache', 'path':'/var/log/apache2/*', }]
 ```
 
-- `job_name` = unique name for scrape job, its recommended to include variable {{ promtail_hostname }} for reference
+- `job_name` = unique name for the scrape job, its recommended to include variable {{ promtail_hostname }} if multiple promtail clients are reporting
 - `label`    = label for job, this can be used to organize queries
 - `path`     = location of log files or directory to scrape
 

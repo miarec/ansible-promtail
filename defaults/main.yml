@@ -9,7 +9,11 @@ promtail_bin: "promtail"
 promtail_local_storage_dir: "etc/promtail"
 
 # promtail config variables
-loki_url: "loki.internal.local"
+
+loki_dns_host: "loki"
+loki_dns_domain: "local.internal"
+loki_url: "{{ loki_dns_host }}.{{ loki_dns_domain }}"
+
 loki_http_listen_port: 3100
 loki_grpc_port: 0
 promtail_hostname: "promtail"
