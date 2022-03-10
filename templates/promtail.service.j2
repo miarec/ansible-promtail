@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 ExecStart={{ promtail_bin_dir }}/{{ promtail_bin }} -config.file {{ promtail_config_dir }}/{{ promtail_config_file }}
 Restart=always
-RestartSec=1
+RestartSec=10
 StandardOutput=journal
 StandardError=journal
 Environment=SYSTEMD_LOG_LEVEL=debug
