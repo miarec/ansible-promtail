@@ -11,7 +11,11 @@ clients:
 scrape_configs:
 - job_name: systemd-journal
   journal:
+{% if ansible_facts['os_family'] == "Debian" %}
     path: /var/log/journal
+{% else %}
+    path: /run/log/journal
+{% endif %}
     labels:
       job: {{ promtail_hostname }}-systemd-journal
 {% for dict_item in scrape_jobs %}
