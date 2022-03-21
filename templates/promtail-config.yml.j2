@@ -11,16 +11,53 @@ clients:
 scrape_configs:
 - job_name: systemd-journal
   journal:
+{% if ansible_facts['os_family'] == "Debian" %}
     path: /var/log/journal
+{% else %}
+    path: /run/log/journal
+{% endif %}
     labels:
-      job: {{ promtail_hostname }}-systemd-journal
+      job: systemd-journal
+    relabel_configs:
+    - source_labels:
+      - __journal_systemd_unit
+      target_labels: systemd_unit
+    relabel_configs:
+    - source_labels:
+      - __journal_hostname
+      target_labels: nodename
+
+{%if aws_install == true%}
 {% for dict_item in scrape_jobs %}
 - job_name: {{dict_item['job_name']}}
   static_configs:
   - targets:
       - localhost
     labels:
-      job: {{dict_item['label']}}
+      job: {{dict_item['job_name']}}
       __path__: {{dict_item['path']}}
 {% endfor %}
-
+{% else %}
+{% for dict_item in scrape_jobs %}
+- job_name: {{dict_item['job_name']}}
+  ec2_sd_configs:
+    - region: {{ aws_region }}
+      profile: REDACTED
+  relabel_configs:
+    - source_labels: [__meta_ec2_tag_Name]
+      target_label: name
+      action: replace
+    - source_labels: [__meta_ec2_instance_id]
+      target_label: instance
+      action: replace
+    - source_labels: [__meta_ec2_tag_Role]
+      target_label: role
+      action: replace
+    - action: replace
+      replacement: {{dict_item['path']}}
+      target_label: __path__
+    - source_labels: [__meta_ec2_private_dns_name]
+      regex: "(.*).{{ aws_region }}.compute.internal"
+      target_label: __host__
+{% endfor %}
+{% endif %}

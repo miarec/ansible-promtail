@@ -38,7 +38,6 @@ scrape_jobs: [
 ```
 
 - `job_name` = unique name for the scrape job, its recommended to include variable {{ promtail_hostname }} if multiple promtail clients are reporting
-- `label`    = label for job, this can be used to organize queries
 - `path`     = location of log files or directory to scrape
 
 ## Example Playbook
@@ -50,8 +49,8 @@ scrape_jobs: [
     promtail_hostname: "server1"
     loki_url: "10.0.0.1"
     scrape_jobs: [
-        {'job_name':'apache', 'label':'{{ promtail_hostname }}-apache', 'path':'/var/log/apache2/*', },
-        {'job_name':'miarec_speech', 'label':'{{ promtail_hostname }}-miarec_speech', 'path':'/var/log/miarec_speech/*', }]
+        {'job_name':'apache', 'path':'/var/log/apache2/*', },
+        {'job_name':'miarec_speech', 'path':'/var/log/miarec_speech/*', }]
 
   roles:
     - ansible-promtail
