@@ -27,7 +27,7 @@ scrape_configs:
       - __journal_hostname
       target_labels: nodename
 
-{%if aws_install == true%}
+{% if aws_install == false %}
 {% for dict_item in scrape_jobs %}
 - job_name: {{dict_item['job_name']}}
   static_configs:
