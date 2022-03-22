@@ -25,7 +25,7 @@ jobs:
 
       - name: Run ansible-lint
         uses: ansible/ansible-lint-action@main
-        with:
+        # with:
           # targets: |
           #   defaults/*
           #   tasks/*
