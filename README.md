@@ -33,11 +33,10 @@ loki_http_listen_port: 3105       # TCP port Loki server is listening
 The following variable defines what promtail will report to loki
 ```
 scrape_jobs: [
-  {'job_name':'{{ promtail_hostname }}-systemd-journal', 'label':'journal', 'path':'/var/log/journal/*'},
-  {'job_name':'{{ promtail_hostname }}-apache', 'label':'apache', 'path':'/var/log/apache2/*', }]
+  {'job_name':'apache', 'path':'/var/log/apache2/*', }]
 ```
 
-- `job_name` = unique name for the scrape job, its recommended to include variable {{ promtail_hostname }} if multiple promtail clients are reporting
+- `job_name` = unique name for the scrape job
 - `path`     = location of log files or directory to scrape
 
 ## Example Playbook
