@@ -25,6 +25,16 @@
   when:
     - promtail_system_user != "root"
 
+- name: Add promtail user to additional groups if needed.
+  user:
+    name: "{{ promtail_system_user }}"
+    groups: "{{ item }}"
+    append: true
+  with_items: "{{ promtail_user_optional_groups }}"
+  when:
+    - promtail_system_user != "root"
+
+
 - name: create promtail config directory
   file:
     path: "{{ promtail_config_dir }}"
