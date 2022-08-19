@@ -3,10 +3,6 @@
   package:
     name: "{{ item }}"
     state: present
-  register: _install_dep_packages
-  until: _install_dep_packages is success
-  retries: 5
-  delay: 2
   with_items: "{{ promtail_dependencies }}"
 
 - name: Create the promtail group
@@ -42,10 +38,6 @@
   get_url:
     url: "https://github.com/grafana/loki/releases/download/v{{ promtail_version }}/promtail-linux-{{ go_arch }}.zip"
     dest: "/tmp"
-  register: _download_binary
-  until: _download_binary is succeeded
-  retries: 5
-  delay: 2
 
 - name: Unpack promtail binary
   become: false
