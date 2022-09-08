@@ -19,15 +19,15 @@ scrape_configs:
 {% endif %}
     labels:
       job: systemd-journal
+      {% if aws_install == true %}
+      instance:${EC2_INSTANCE}
+      name:${EC2_TAG_NAME}
+      role:${EC2_TAG_ROLE}
+      {% endif %}
   relabel_configs:
-    - source_labels:
-      - __journal_systemd_unit
-      target_label: systemd_unit
-    - source_labels:
-      - __journal_hostname
-      target_label: nodename
+    - source_labels: ['__journal__systemd_unit']
+      target_label: unit
 
-{% if aws_install == false %}
 {% for dict_item in scrape_jobs %}
 - job_name: {{dict_item['job_name']}}
   static_configs:
@@ -36,41 +36,10 @@ scrape_configs:
     labels:
       job: {{dict_item['job_name']}}
       __path__: {{dict_item['path']}}
+      {% if aws_install == true %}
+      instance:${EC2_INSTANCE}
+      name:${EC2_TAG_NAME}
+      role:${EC2_TAG_ROLE}
+      {% endif %}
 {% endfor %}
-{% else %}
 
-{% for dict_item in scrape_jobs %}
-- job_name: {{dict_item['job_name']}}
-
-  ec2_sd_configs:
-    - region: {{ aws_region }}
-
-  relabel_configs:
-
-    - source_labels: [__meta_ec2_tag_Name]
-      target_label: name
-      action: replace
-
-    - source_labels: [__meta_ec2_instance_id]
-      target_label: instance
-      action: replace
-
-    - source_labels: [__meta_ec2_tag_Role]
-      target_label: role
-      action: replace
-
-    - action: replace
-      replacement: {{dict_item['job_name']}}
-      target_label: job
-
-    - action: replace
-      replacement: {{dict_item['path']}}
-      target_label: __path__
-
-    - source_labels: [__meta_ec2_private_dns_name]
-      regex: "([^.]+).*internal"
-      replacement: "$1"
-      target_label: __host__
-
-{% endfor %}
-{% endif %}

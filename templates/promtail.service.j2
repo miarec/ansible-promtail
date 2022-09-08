@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User={{ promtail_system_user }}
 Group={{ promtail_system_group }}
-ExecStart={{ promtail_bin_dir }}/{{ promtail_bin }} -config.file {{ promtail_config_dir }}/{{ promtail_config_file }}
+ExecStart={{ promtail_bin_dir }}/{{ promtail_bin }} -config.expand-env=true -config.file {{ promtail_config_dir }}/{{ promtail_config_file }}
 Restart=always
 RestartSec=10
 StandardOutput=journal
