@@ -20,6 +20,7 @@ def test_files(host):
         "/etc/systemd/system/promtail.service",
         "/usr/local/bin/promtail",
         "/etc/promtail/promtail-config.yml",
+        "/etc/promtail/promtail-env"
     ]
     for file in files:
         f = host.file(file)

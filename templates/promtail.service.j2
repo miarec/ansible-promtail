@@ -11,7 +11,7 @@ Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
-Environment=SYSTEMD_LOG_LEVEL=debug
+EnviromentFile={{ promtail_env_file }}
 
 [Install]
 WantedBy=multi-user.target
