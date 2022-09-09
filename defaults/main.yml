@@ -21,14 +21,5 @@ promtail_hostname: "promtail-client"
 scrape_jobs: [
   {'job_name':'miarec_speech', 'path':'/var/log/miarec_speech/*'}]
 
-# aws_install: false
+aws_install: false
 aws_region: us-west-2
-
-
-aws_install: true
-scrape_jobs: [
-  {'job_name':'apache_access', 'path':'/var/log/apache2/access.log', },
-  {'job_name':'apache_error', 'path':'/var/log/apache2/error.log', },
-  {'job_name':'housekeeper', 'path':'/var/log/miarec_speech/housekeeper.log', },
-  {'job_name':'asr_server', 'path':'/var/log/miarec_speech/asr_server.log', },
-]
