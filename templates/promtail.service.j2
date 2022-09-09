@@ -11,7 +11,7 @@ Restart=always
 RestartSec=10
 StandardOutput=journal
 StandardError=journal
-EnviromentFile={{ promtail_env_file }}
+EnvironmentFile={{ promtail_config_dir }}/{{ promtail_env_file }}
 
 [Install]
 WantedBy=multi-user.target

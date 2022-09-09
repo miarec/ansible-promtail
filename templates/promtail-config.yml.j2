@@ -11,6 +11,7 @@ clients:
 scrape_configs:
 
 - job_name: systemd-journal
+
   journal:
 {% if ansible_facts['os_family'] == "Debian" %}
     path: /var/log/journal
@@ -20,15 +21,18 @@ scrape_configs:
     labels:
       job: systemd-journal
       {% if aws_install == true %}
-      instance:${EC2_INSTANCE}
-      name:${EC2_TAG_NAME}
-      role:${EC2_TAG_ROLE}
+
+      instance: ${EC2_INSTANCE}
+      name: ${EC2_TAG_NAME}
+      role: ${EC2_TAG_ROLE}
       {% endif %}
+
   relabel_configs:
     - source_labels: ['__journal__systemd_unit']
       target_label: unit
 
 {% for dict_item in scrape_jobs %}
+
 - job_name: {{dict_item['job_name']}}
   static_configs:
   - targets:
@@ -37,9 +41,11 @@ scrape_configs:
       job: {{dict_item['job_name']}}
       __path__: {{dict_item['path']}}
       {% if aws_install == true %}
-      instance:${EC2_INSTANCE}
-      name:${EC2_TAG_NAME}
-      role:${EC2_TAG_ROLE}
+
+      instance: ${EC2_INSTANCE}
+      name: ${EC2_TAG_NAME}
+      role: ${EC2_TAG_ROLE}
       {% endif %}
+
 {% endfor %}
 
