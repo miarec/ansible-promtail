@@ -4,6 +4,7 @@ promtail_http_listen_port: 9080
 promtail_grpc_listen_port: 0
 promtail_config_dir: "/etc/promtail"
 promtail_config_file: "promtail-config.yml"
+promtail_env_file: "promtail-env"
 promtail_bin_dir: "/usr/local/bin"
 promtail_bin: "promtail"
 promtail_local_storage_dir: "etc/promtail"

@@ -1,10 +1,9 @@
 ---
-- name: Create promtail systemd service file
+- name: Create/Update Promtail Environment file
   template:
-    src: promtail.service.j2
-    dest: /etc/systemd/system/promtail.service
+    src: promtail-env.j2
+    dest: "{{ promtail_config_dir }}/{{ promtail_env_file }}"
     owner: root
-    group: root
     mode: 0644
   notify: restart promtail
 
@@ -13,5 +12,14 @@
     src: promtail-config.yml.j2
     dest: "{{ promtail_config_dir }}/{{ promtail_config_file }}"
     owner: root
+    mode: 0644
+  notify: restart promtail
+
+- name: Create promtail systemd service file
+  template:
+    src: promtail.service.j2
+    dest: /etc/systemd/system/promtail.service
+    owner: root
+    group: root
     mode: 0644
   notify: restart promtail
