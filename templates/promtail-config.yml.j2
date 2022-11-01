@@ -7,6 +7,20 @@ positions:
 
 clients:
   - url: http://{{ loki_url }}:{{ loki_http_listen_port }}/loki/api/v1/push
+    backoff_config:
+      min_period: {{ backoff_min_period }}
+      max_period: {{ backoff_max_period }}
+      max_retries: {{ backoff_max_retries }}
+    batchwait: {{ batchwait }}
+    batchsize: {{ batchsize }}
+
+{% if readline_rate_enabled == true %}
+limits_config:
+  readline_rate_enabled: true
+  readline_rate: {{ readline_rate }}
+  readline_burst: {{ readline_burst }}
+  readline_rate_drop: {{ readline_rate_drop }}
+{% endif %}
 
 scrape_configs:
 

@@ -9,6 +9,45 @@ promtail_bin_dir: "/usr/local/bin"
 promtail_bin: "promtail"
 promtail_local_storage_dir: "etc/promtail"
 
+# promtail behavior vars, this defines how promtail interacts with Loki
+
+# Maximum amount of time to wait before sending a batch, even if that
+# batch isn't full.
+batchwait: "1s"
+# Maximum batch size (in bytes) of logs to accumulate before sending
+# the batch to Loki.
+batchsize: 1048576
+
+
+# Configures how to retry requests to Loki when a request
+# fails.
+# Default backoff schedule:
+# 0.5s, 1s, 2s, 4s, 8s, 16s, 32s, 64s, 128s, 256s(4.267m)
+# For a total time of 511.5s(8.5m) before logs are lost
+# Initial backoff time between retries
+backoff_min_period: "500ms"
+# Maximum backoff time between retries
+backoff_max_period: "5m"
+# Maximum number of retries to do
+backoff_max_retries: 10
+
+
+# When true, enforces rate limiting on this instance of Promtail.
+readline_rate_enabled: true
+
+# The rate limit in log lines per second that this instance of Promtail may push to Loki.
+readline_rate: 10000
+
+# The cap in the quantity of burst lines that this instance of Promtail may push
+# to Loki.
+readline_burst: 10000
+
+# When true, exceeding the rate limit causes this instance of Promtail to discard
+# log lines, rather than sending them to Loki. When false, exceeding the rate limit
+# causes this instance of Promtail to temporarily hold off on sending the log lines and retry later.
+readline_rate_drop: false
+
+
 # promtail config variables
 
 loki_dns_host: "loki"
