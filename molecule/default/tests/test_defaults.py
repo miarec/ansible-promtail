@@ -7,7 +7,8 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 def test_directories(host):
     dirs = [
-        "/etc/promtail"
+        "/etc/promtail",
+        "/var/log/promtail"
     ]
     for dir in dirs:
         d = host.file(dir)
