@@ -34,14 +34,14 @@
   when:
     - promtail_system_user != "root"
 
-
-- name: create promtail config directory
+- name: Create promtail directories
   file:
-    path: "{{ promtail_config_dir }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ promtail_system_user }}"
     group: "{{ promtail_system_group }}"
     mode: 0755
+  with_item: {{ promtail_directories }}
 
 - name: Download promtail binary
   become: false
