@@ -8,18 +8,18 @@ positions:
 clients:
   - url: http://{{ loki_url }}:{{ loki_http_listen_port }}/loki/api/v1/push
     backoff_config:
-      min_period: {{ backoff_min_period }}
-      max_period: {{ backoff_max_period }}
-      max_retries: {{ backoff_max_retries }}
-    batchwait: {{ batchwait }}
-    batchsize: {{ batchsize }}
+      min_period: {{ promtail_backoff_min_period }}
+      max_period: {{ promtail_backoff_max_period }}
+      max_retries: {{ promtail_backoff_max_retries }}
+    batchwait: {{ promtail_batchwait }}
+    batchsize: {{ promtail_batchsize }}
 
-{% if readline_rate_enabled == true %}
+{% if promtail_readline_rate_enabled == true %}
 limits_config:
   readline_rate_enabled: true
-  readline_rate: {{ readline_rate }}
-  readline_burst: {{ readline_burst }}
-  readline_rate_drop: {{ readline_rate_drop }}
+  readline_rate: {{ promtail_readline_rate }}
+  readline_burst: {{ promtail_readline_burst }}
+  readline_rate_drop: {{ promtail_readline_rate_drop }}
 {% endif %}
 
 scrape_configs:
