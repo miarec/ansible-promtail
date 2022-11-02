@@ -50,7 +50,7 @@ promtail_readline_rate: 10000
 
 # The cap in the quantity of burst lines that this instance of Promtail may push
 # to Loki.
-promtail_readline_burst: 10000
+promtail_readline_burst: "{{ promtail_readline_rate }}"
 
 # When true, exceeding the rate limit causes this instance of Promtail to discard
 # log lines, rather than sending them to Loki. When false, exceeding the rate limit
