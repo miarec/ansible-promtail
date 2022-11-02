@@ -41,7 +41,7 @@
     owner: "{{ promtail_system_user }}"
     group: "{{ promtail_system_group }}"
     mode: 0755
-  with_item: "{{ promtail_directories }}"
+  with_items: "{{ promtail_directories }}"
 
 - name: Download promtail binary
   become: false
