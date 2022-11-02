@@ -23,14 +23,6 @@ jobs:
           yamllint_comment: false
           yamllint_config_filepath: '.yamllint'
 
-      # - name: Run ansible-lint
-      #   uses: ansible/ansible-lint-action@main
-        # with:
-          # targets: |
-          #   defaults/*
-          #   tasks/*
-          # override-deps: ansible-lint==5.3.2     # https://github.com/ansible-community/ansible-lint/issues/1795
-
   test:
     name: molecule
     needs: lint

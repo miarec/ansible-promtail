@@ -39,6 +39,23 @@ scrape_jobs: [
 - `job_name` = unique name for the scrape job
 - `path`     = location of log files or directory to scrape
 
+Teh following variables define how promtail sends data to Loki and how it handles errors
+
+Readline variables define how many lines of log file will be read in a cycle
+- `promtail_readline_rate_enabled` enables rate limits globally for promtail instance default = `true`
+- `promtail_readline_rate` how many lines will be read at a time, default `10000`
+- `promtail_readline_rate_drop`When true, exceeding the rate limit causes this instance of Promtail to discard log lines, rather than sending them to Loki, default = `false`
+
+Backoff Configuration vars define error handling when Loki is unavailable
+- `promtail_backoff_min_period` defines the ammount of time between retries, when loki is unavailable, default = `"500ms"`
+- `promtail_backoff_max_period`defines the total ammount of time promtail will attempt to send data to Loki, default = `"5m"`
+- `promtail_backoff_max_retries` defines the total times promtail will attempt to send data to Loki, default = `10`
+
+
+Batch variables, promtail will wait until either of the following critera are met before packging and sending to Loki, example if 1.04MB of log data is collected in 500ms, then data will be sent every 500ms, if it at 1 second, .5MB of log data is collected, thatn .5MB will be sent every second
+- `promtail_batchwait` defines the ammount of time that promatil will wait before sending buffered data to Loki, default = `"1s"`
+- `promtail_batchsize` defines the total size of buffered data that promatil will wait to collect before sending to Loki, default = `1048576`
+
 ## Example Playbook
 
 ```yaml
