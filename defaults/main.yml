@@ -9,9 +9,9 @@ promtail_local_storage_dir: "/etc/promtail"
 promtail_bin_dir: "/usr/local/bin"
 
 promtail_directories:
- - {{ promtail_config_dir }}
- - {{ promtail_log_dir }}
- - {{ promtail_local_storage_dir }}
+  - "{{ promtail_config_dir }}"
+  - "{{ promtail_log_dir }}"
+  - "{{ promtail_local_storage_dir }}"
 
 promtail_config_file: "promtail-config.yml"
 promtail_env_file: "promtail-env"
