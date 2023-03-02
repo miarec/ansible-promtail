@@ -23,9 +23,6 @@ scrape_configs:
 {% endif %}
     labels:
       job: systemd-journal
-      {% for k,v in promtail_custom_labels %}
-      {{ k }}: {{ v }}
-      {% endfor %}
 
   relabel_configs:
     - source_labels: ['__journal__systemd_unit']
@@ -40,9 +37,6 @@ scrape_configs:
     labels:
       job: {{dict_item['job_name']}}
       __path__: {{dict_item['path']}}
-      {% for k,v in promtail_custom_labels %}
-      {{ k }}: {{ v }}
-      {% endfor %}
 
 {% endfor %}
 
