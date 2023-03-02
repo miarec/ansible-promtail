@@ -35,13 +35,21 @@
     - promtail_system_user != "root"
 
 
-- name: create promtail config directory
+- name: Create promtail config directory
   file:
     path: "{{ promtail_config_dir }}"
     state: directory
     owner: "{{ promtail_system_user }}"
     group: "{{ promtail_system_group }}"
     mode: 0755
+
+- name: Create promtail environment file
+  template:
+    src: promtail-env.j2
+    dest: "{{ promtail_config_dir }}/{{ promtail_env_file }}"
+    owner: root
+    mode: 0644
+  # notify: restart promtail
 
 - name: Download promtail binary
   become: false

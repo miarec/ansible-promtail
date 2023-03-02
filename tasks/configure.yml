@@ -1,11 +1,11 @@
 ---
-- name: Create/Update Promtail Environment file
-  template:
-    src: promtail-env.j2
-    dest: "{{ promtail_config_dir }}/{{ promtail_env_file }}"
-    owner: root
-    mode: 0644
-  notify: restart promtail
+# - name: Create Promtail Environment file
+#   template:
+#     src: promtail-env.j2
+#     dest: "{{ promtail_config_dir }}/{{ promtail_env_file }}"
+#     owner: root
+#     mode: 0644
+#   notify: restart promtail
 
 - name: Create/Update configuration file
   template:

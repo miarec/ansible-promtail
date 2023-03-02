@@ -20,12 +20,9 @@ scrape_configs:
 {% endif %}
     labels:
       job: systemd-journal
-      {% if aws_install == true %}
-
-      instance: ${EC2_INSTANCE}
-      name: ${EC2_TAG_NAME}
-      role: ${EC2_TAG_ROLE}
-      {% endif %}
+      {% for k,v in promtail_custom_labels %}
+      {{ k }}: {{ v }}
+      {% endfor %}
 
   relabel_configs:
     - source_labels: ['__journal__systemd_unit']
@@ -40,12 +37,9 @@ scrape_configs:
     labels:
       job: {{dict_item['job_name']}}
       __path__: {{dict_item['path']}}
-      {% if aws_install == true %}
-
-      instance: ${EC2_INSTANCE}
-      name: ${EC2_TAG_NAME}
-      role: ${EC2_TAG_ROLE}
-      {% endif %}
+      {% for k,v in promtail_custom_labels %}
+      {{ k }}: {{ v }}
+      {% endfor %}
 
 {% endfor %}
 
