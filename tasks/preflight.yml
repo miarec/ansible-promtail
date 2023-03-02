@@ -31,3 +31,10 @@
     - name: "Set promtail version to {{ _latest_release.json.tag_name[1:] }}"
       set_fact:
         promtail_version: "{{ _latest_release.json.tag_name[1:] }}"
+
+- name: Pull EC2 metadata in installed in AWS
+  command: "curl -sL {{ promtail_aws_imdsv1_url }}/{{ item.value }}"
+  register: _aws_ec2_metadata
+  with_dict: "{{ promtail_aws_imdsv1_data }}"
+  changed_when: false
+  when: promtail_aws_install

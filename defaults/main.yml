@@ -21,7 +21,7 @@ promtail_hostname: "promtail-client"
 scrape_jobs: [
   {'job_name':'miarec_speech', 'path':'/var/log/miarec_speech/*'}]
 
-# Custom Promtail labels
+# Promtail labels
 # these will be inserted into environment file
 promtail_custom_environment_variables: []
   # - "EXAMPLE_EV=VALUE"
@@ -29,28 +29,10 @@ promtail_custom_environment_variables: []
 # these lables will be added to all metrics sent to Loki, they can reference environment vars or other metadata
 promtail_external_labels:
   environment: "{{ ansible_fqdn | default(ansible_host) | default(inventory_hostname) }}"
-  # - label: "${EXAMPLE_EV}"
-  # - hostname: "EXAMPLE_HOSTNAME"
-  # - instance: "${EC2_INSTANCE}"
-  # - name: "${EC2_TAG_NAME}"
-  # - role: "${EC2_TAG_ROLE}"
 
 
-
-#         echo "SYSTEMD_LOG_LEVEL=debug" > /etc/promtail/promtail-env
-#         echo "EC2_INSTANCE=$(curl -sL http://169.254.169.254/latest/meta-data/instance-id)" >> /etc/promtail/promtail-env
-#         echo "EC2_TAG_NAME=$(curl -sL http://169.254.169.254/latest/meta-data/tags/instance/Name)" >> /etc/promtail/promtail-env
-#         echo "EC2_TAG_ROLE=$(curl -sL http://169.254.169.254/latest/meta-data/tags/instance/Role)" >> /etc/promtail/promtail-env
-#         systemctl restart promtail
-
-
-
+# promtail aws settings
 
 promtail_aws_install: false
-# promtail_aws_region: us-west-2  <<< i dont think i need this, this was from ec2_sd which i am not using now
-
-
 promtail_aws_imdsv1_url: "http://169.254.169.254/latest/meta-data/"
-promtail_aws_imdsv1_data:
-  - EC2_INSTANCE_ID: "instance-id"
-  - EC2_INSTANCE_NAME: "tags/instance/Name"
+promtail_aws_imdsv1_data: []

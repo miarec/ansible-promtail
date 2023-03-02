@@ -2,3 +2,6 @@ SYSTEMD_LOG_LEVEL=debug
 {% for ev in promtail_custom_environment_variables %}
 {{ ev }}
 {% endfor %}
+{% for item in _aws_ec2_metadata.results %}
+{{ item.item.key }}={{ item.stdout }}
+{% endfor %}

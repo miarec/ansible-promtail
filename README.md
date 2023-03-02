@@ -52,8 +52,28 @@ Install Promtail with custom labels
     promtail_custom_environment_variables:
       - "CUSTOM_EV=VALUE1"
     promtail_external_labels:
-      custom1: "${CUSTOM_EV}"
       static_label: "Static label"
+
+  roles:
+    - role: miarec.promtail
+```
+
+Install Promtail installed in AWS
+```yaml
+- hosts: server
+
+  vars:
+    loki_url: "10.0.0.10"
+    loki_http_listen_port: 3100
+    promtail_http_listen_port: 9110
+    promtail_aws_imdsv1_data:
+      EC2_INSTANCE_ID: 'instance-id'
+      EC2_TAG_NAME: 'tags/instance/Name'
+      EC2_TAG_ENVIRONMENT: 'tags/instance/Environment'
+      EC2_TAG_ROLE: 'tags/instance/Role'
+    promtail_external_labels:
+      host: "${EC2_TAG_NAME}.${EC2_TAG_ENVIRONMENT}"
+      role: "${EC2_TAG_ROLE}"
 
   roles:
     - role: miarec.promtail
