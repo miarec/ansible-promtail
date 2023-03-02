@@ -15,7 +15,9 @@ ansible role to install promtail as a service for log aggregation locally detail
     - enabled
 
 ## Role Variables
-The following variables define how promtail reports to loki
+
+### Connection variables
+TODO make this a little easier
 
 Example using IP address, loki server at `1.2.3.4:3100`
 ```
@@ -30,14 +32,33 @@ loki_dns_domain: "example.com"    # hostname portion of Loki FQDN
 loki_http_listen_port: 3105       # TCP port Loki server is listening
 ```
 
+### Promtail configuration variables
 The following variable defines what promtail will report to loki
+
+ - `scrape_jobs` defines what log files promatil will track, where `job_name` = defines a name for the scrape job and `path`  defines the location of log files or directory to scrape
+example
 ```
 scrape_jobs: [
   {'job_name':'apache', 'path':'/var/log/apache2/*', }]
 ```
+ - `promtail_custom_environment_variables` custom envrionment variables that can be added to promtail
+ - `promtail_external_labels` this will be attached to all metrics on all jobs delivered to loki
 
-- `job_name` = unique name for the scrape job
-- `path`     = location of log files or directory to scrape
+### AWS Labels
+ - `promtail_aws_imdsv1_data` This dictonary defines what metadata should be queried from AWS IMDS and how it is written to the promtail environment file, the key is the name of the metric and the value is the path that should be queried
+ example
+```yaml
+     promtail_aws_imdsv1_data:
+      EC2_INSTANCE_ID: 'instance-id'
+```
+the result of `curl -sL http://169.254.169.254/latest/meta-data/instance-id` will be save with key `EC2_INSTANCE_ID` and will be wriiten to `/etc/promtail/promtail-env`
+```
+$ cat /etc/promtail/promtail-env
+SYSTEMD_LOG_LEVEL=debug
+EC2_INSTANCE_ID=i-02b4a42c6267b8f43
+```
+
+Used with `promtail_external_labels`, EC2 metadata can be assigned to all logs forwarded to Loki
 
 ## Example Playbook
 

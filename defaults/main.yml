@@ -33,4 +33,5 @@ promtail_external_labels:
 # promtail aws settings
 promtail_aws_install: false
 promtail_aws_imdsv1_url: "http://169.254.169.254/latest/meta-data/"
-promtail_aws_imdsv1_data: []
+promtail_aws_imdsv1_data:
+  EC2_INSTANCE_ID: 'instance-id'
