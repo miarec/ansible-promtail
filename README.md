@@ -41,18 +41,22 @@ scrape_jobs: [
 
 ## Example Playbook
 
+Install Promtail with custom labels
 ```yaml
 - hosts: server
 
   vars:
-    promtail_hostname: "server1"
-    loki_url: "10.0.0.1"
-    scrape_jobs: [
-        {'job_name':'apache', 'path':'/var/log/apache2/*', },
-        {'job_name':'miarec_speech', 'path':'/var/log/miarec_speech/*', }]
+    loki_url: "10.0.0.10"
+    loki_http_listen_port: 3100
+    promtail_http_listen_port: 9110
+    promtail_custom_environment_variables:
+      - "CUSTOM_EV=VALUE1"
+    promtail_external_labels:
+      custom1: "${CUSTOM_EV}"
+      static_label: "Static label"
 
   roles:
-    - ansible-promtail
+    - role: miarec.promtail
 ```
 
 ## CICD

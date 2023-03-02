@@ -23,11 +23,12 @@ scrape_jobs: [
 
 # Custom Promtail labels
 # these will be inserted into environment file
-promtail_custom_environment_variables:
+promtail_custom_environment_variables: []
   # - "EXAMPLE_EV=VALUE"
 
-# these will be added to each job
-promtail_custom_labels:
+# these lables will be added to all metrics sent to Loki, they can reference environment vars or other metadata
+promtail_external_labels:
+  environment: "{{ ansible_fqdn | default(ansible_host) | default(inventory_hostname) }}"
   # - label: "${EXAMPLE_EV}"
   # - hostname: "EXAMPLE_HOSTNAME"
   # - instance: "${EC2_INSTANCE}"

@@ -7,6 +7,9 @@ positions:
 
 clients:
   - url: http://{{ loki_url }}:{{ loki_http_listen_port }}/loki/api/v1/push
+    external_labels:
+      {{ promtail_external_labels | to_nice_yaml(indent=2,sort_keys=False) | indent(6, False) }}
+
 
 scrape_configs:
 

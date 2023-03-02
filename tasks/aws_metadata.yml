@@ -1,7 +1,6 @@
 ---
 - name: Pull EC2 IMDSv1 metadata
-  command: curl -sL {{ promtail_aws_imdsv1_url }}/{{ item.value }}
-    path: /etc/letsencrypt/live/{{ item }}/cert.pem
+  command: "curl -sL {{ promtail_aws_imdsv1_url }}/{{ item.value }}"
   register: _aws_imdsv1_result
   with_items: "{{ promtail_aws_imdsv1_data }}"
 
