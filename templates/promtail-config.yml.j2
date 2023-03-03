@@ -28,7 +28,7 @@ scrape_configs:
     - source_labels: ['__journal__systemd_unit']
       target_label: unit
 
-{% for dict_item in scrape_jobs %}
+{% for dict_item in promtail_scrape_jobs %}
 
 - job_name: {{dict_item['job_name']}}
   static_configs:
