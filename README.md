@@ -38,7 +38,7 @@ The following variable defines what promtail will report to loki
  - `scrape_jobs` defines what log files promatil will track, where `job_name` = defines a name for the scrape job and `path`  defines the location of log files or directory to scrape
 example
 ```
-scrape_jobs: [
+promtail_scrape_jobs: [
   {'job_name':'apache', 'path':'/var/log/apache2/*', }]
 ```
  - `promtail_custom_environment_variables` custom envrionment variables that can be added to promtail
@@ -70,6 +70,9 @@ Install Promtail with custom labels
     loki_url: "10.0.0.10"
     loki_http_listen_port: 3100
     promtail_http_listen_port: 9110
+    promtail_scrape_jobs: [
+        {'job_name':'apache', 'path':'/var/log/apache2/*', },
+        {'job_name':'miarec_speech', 'path':'/var/log/miarec_speech/*', }]
     promtail_custom_environment_variables:
       - "CUSTOM_EV=VALUE1"
     promtail_external_labels:
@@ -87,6 +90,9 @@ Install Promtail installed in AWS
     loki_url: "10.0.0.10"
     loki_http_listen_port: 3100
     promtail_http_listen_port: 9110
+    promtail_scrape_jobs: [
+        {'job_name':'apache', 'path':'/var/log/apache2/*', },
+        {'job_name':'miarec_speech', 'path':'/var/log/miarec_speech/*', }]
     promtail_aws_imdsv1_data:
       EC2_INSTANCE_ID: 'instance-id'
       EC2_TAG_NAME: 'tags/instance/Name'
