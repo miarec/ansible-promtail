@@ -8,7 +8,7 @@ positions:
 clients:
   - url: {{ promtail_loki_url }}{{ promtail_loki_push_path }}
     external_labels:
-      {{ promtail_external_labels | to_nice_yaml(indent=2,sort_keys=False) | indent(6, False) }}
+      {{ promtail_external_labels | to_nice_yaml(indent=2) | indent(6, False) }}
 
 
 scrape_configs:
