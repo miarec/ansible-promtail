@@ -14,14 +14,6 @@ promtail_local_storage_dir: "etc/promtail"
 promtail_loki_url:
 promtail_loki_push_path: "/loki/api/v1/push"
 
-# loki_dns_host: "loki"
-# loki_dns_domain: "local.internal"
-# loki_url: "{{ loki_dns_host }}.{{ loki_dns_domain }}"
-
-# loki_http_listen_port: 3100
-# loki_grpc_port: 0
-
-
 # promtail_hostname: "promtail-client"
 promtail_scrape_jobs: [
   {'job_name':'miarec_speech', 'path':'/var/log/miarec_speech/*'}]

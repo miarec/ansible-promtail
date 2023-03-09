@@ -17,20 +17,17 @@ ansible role to install promtail as a service for log aggregation locally detail
 ## Role Variables
 
 ### Connection variables
-TODO make this a little easier
 
-Example using IP address, loki server at `1.2.3.4:3100`
-```
-loki_url: "1.2.3.4"             # IP address of the Loki Server
-loki_http_listen_port: 3100     # TCP port Loki server is listening
-loki_grpc_port: 0               # GRPC port Loki server listens, 0 means a random port
-```
-Example using FQDN, loki server at `loki.example.com:3105`
-```
-loki_dns_host: "loki"             # hostname portion of Loki FQDN
-loki_dns_domain: "example.com"    # hostname portion of Loki FQDN
-loki_http_listen_port: 3105       # TCP port Loki server is listening
-```
+ - `promtail_loki_url` define where promtail should send log, this can be a FQDN or IP address
+
+    Examples
+    ```
+    promtail_loki_url = "https://loki.example.com"
+    ```
+
+    ```
+    promtail_loki_url = "http://1.1.1.1:3100"
+    ```
 
 ### Promtail configuration variables
 The following variable defines what promtail will report to loki
