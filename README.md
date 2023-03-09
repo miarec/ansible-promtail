@@ -17,48 +17,64 @@ ansible role to install promtail as a service for log aggregation locally detail
 ## Role Variables
 
 ### Connection variables
-TODO make this a little easier
 
-Example using IP address, loki server at `1.2.3.4:3100`
-```
-loki_url: "1.2.3.4"             # IP address of the Loki Server
-loki_http_listen_port: 3100     # TCP port Loki server is listening
-loki_grpc_port: 0               # GRPC port Loki server listens, 0 means a random port
-```
-Example using FQDN, loki server at `loki.example.com:3105`
-```
-loki_dns_host: "loki"             # hostname portion of Loki FQDN
-loki_dns_domain: "example.com"    # hostname portion of Loki FQDN
-loki_http_listen_port: 3105       # TCP port Loki server is listening
-```
+ - `promtail_loki_url` define where promtail should send log, this can be a FQDN or IP address
+
+    Examples
+    ```
+    promtail_loki_url = "https://loki.example.com"
+    ```
+
+    ```
+    promtail_loki_url = "http://1.1.1.1:3100"
+    ```
 
 ### Promtail configuration variables
 The following variable defines what promtail will report to loki
 
- - `scrape_jobs` defines what log files promatil will track, where `job_name` = defines a name for the scrape job and `path`  defines the location of log files or directory to scrape
-example
-```
-promtail_scrape_jobs: [
-  {'job_name':'apache', 'path':'/var/log/apache2/*', }]
-```
- - `promtail_custom_environment_variables` custom envrionment variables that can be added to promtail
+ - `promtail_scrape_jobs` defines what log files promatil will track
+    - `job_name` = name for the scrape job
+    - `path` = location of log files or directory to scrape, wildcards are allowed
+
+    Example
+    ```
+    promtail_scrape_jobs: [
+      {'job_name':'apache', 'path':'/var/log/apache2/*', }]
+    ```
+ - `promtail_custom_environment_variables` custom envrionment variables that can be added to promtail environment file
+
  - `promtail_external_labels` this will be attached to all metrics on all jobs delivered to loki
+    - `key` will be the label name supplied to loki, it would be a good idea to use standard lables for all instance monitored
+    - `value` data that will be supplied, this can be a test string or a enviromental variable that can be read when loki is reloaded
+
+    Example
+    ```yaml
+      promtail_external_labels:
+        host: "${EC2_TAG_NAME}.${EC2_TAG_ENVIRONMENT}"
+        role: "${EC2_TAG_ROLE}"
+        custom: "custom ssting that will be applied to all logs sent to loki"
+    ```
 
 ### AWS Labels
- - `promtail_aws_imdsv1_data` This dictonary defines what metadata should be queried from AWS IMDS and how it is written to the promtail environment file, the key is the name of the metric and the value is the path that should be queried
- example
-```yaml
-     promtail_aws_imdsv1_data:
-      EC2_INSTANCE_ID: 'instance-id'
-```
-the result of `curl -sL http://169.254.169.254/latest/meta-data/instance-id` will be save with key `EC2_INSTANCE_ID` and will be wriiten to `/etc/promtail/promtail-env`
-```
-$ cat /etc/promtail/promtail-env
-SYSTEMD_LOG_LEVEL=debug
-EC2_INSTANCE_ID=i-02b4a42c6267b8f43
-```
 
-Used with `promtail_external_labels`, EC2 metadata can be assigned to all logs forwarded to Loki
+ - `promtail_aws_install` when `true`, instructs the role to query instance metadata from AWS IMDS, default = `false`
+ - `promtail_aws_imdsv1_data` This dictonary defines what metadata should be queried from AWS IMDS version1 and how it is written to the promtail environment file,
+    - `key` is the name of the metric, this will be the environment variable used in `promtail_external_labels`
+    - `value` is the path that should be queried, more information in the [AWS documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-categories.html)
+
+    Example
+    ```yaml
+        promtail_aws_imdsv1_data:
+          EC2_INSTANCE_ID: 'instance-id'
+    ```
+    The result of `curl -sL http://169.254.169.254/latest/meta-data/instance-id` will be saved with key `EC2_INSTANCE_ID` and will be wriiten to `/etc/promtail/promtail-env`
+    ```
+    $ cat /etc/promtail/promtail-env
+    SYSTEMD_LOG_LEVEL=debug
+    EC2_INSTANCE_ID=i-02b4a42c6267b8f43
+    ```
+
+    Used with `promtail_external_labels`, EC2 metadata can be assigned to all logs forwarded to Loki
 
 ## Example Playbook
 
