@@ -18,8 +18,20 @@ loki_url: "{{ loki_dns_host }}.{{ loki_dns_domain }}"
 loki_http_listen_port: 3100
 loki_grpc_port: 0
 promtail_hostname: "promtail-client"
-scrape_jobs: [
+promtail_scrape_jobs: [
   {'job_name':'miarec_speech', 'path':'/var/log/miarec_speech/*'}]
 
-aws_install: false
-aws_region: us-west-2
+# Promtail labels
+# these will be inserted into environment file
+promtail_custom_environment_variables: []
+
+# these lables will be added to all metrics sent to Loki, they can reference environment vars or other metadata
+promtail_external_labels:
+  environment: "{{ ansible_fqdn | default(ansible_host) | default(inventory_hostname) }}"
+
+
+# promtail aws settings
+promtail_aws_install: false
+promtail_aws_imdsv1_url: "http://169.254.169.254/latest/meta-data/"
+promtail_aws_imdsv1_data:
+  EC2_INSTANCE_ID: 'instance-id'

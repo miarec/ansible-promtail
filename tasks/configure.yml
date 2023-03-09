@@ -1,5 +1,5 @@
 ---
-- name: Create/Update Promtail Environment file
+- name: Create Promtail Environment file
   template:
     src: promtail-env.j2
     dest: "{{ promtail_config_dir }}/{{ promtail_env_file }}"

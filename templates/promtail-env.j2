@@ -1,6 +1,9 @@
 SYSTEMD_LOG_LEVEL=debug
-{% if aws_install == true %}
-EC2_INSTANCE=$(curl -sL http://169.254.169.254/latest/meta-data/instance-id)
-EC2_TAG_NAME=$(curl -sL http://169.254.169.254/latest/meta-data/tags/instance/Name)
-EC2_TAG_ROLE=$(curl -sL http://169.254.169.254/latest/meta-data/tags/instance/Role)
+{% for ev in promtail_custom_environment_variables %}
+{{ ev }}
+{% endfor %}
+{% if promtail_aws_install %}
+{% for item in _aws_ec2_metadata.results %}
+{{ item.item.key }}={{ item.stdout }}
+{% endfor %}
 {% endif %}

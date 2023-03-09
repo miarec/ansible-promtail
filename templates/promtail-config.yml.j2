@@ -7,6 +7,9 @@ positions:
 
 clients:
   - url: http://{{ loki_url }}:{{ loki_http_listen_port }}/loki/api/v1/push
+    external_labels:
+      {{ promtail_external_labels | to_nice_yaml(indent=2,sort_keys=False) | indent(6, False) }}
+
 
 scrape_configs:
 
@@ -20,18 +23,12 @@ scrape_configs:
 {% endif %}
     labels:
       job: systemd-journal
-      {% if aws_install == true %}
-
-      instance: ${EC2_INSTANCE}
-      name: ${EC2_TAG_NAME}
-      role: ${EC2_TAG_ROLE}
-      {% endif %}
 
   relabel_configs:
     - source_labels: ['__journal__systemd_unit']
       target_label: unit
 
-{% for dict_item in scrape_jobs %}
+{% for dict_item in promtail_scrape_jobs %}
 
 - job_name: {{dict_item['job_name']}}
   static_configs:
@@ -40,12 +37,6 @@ scrape_configs:
     labels:
       job: {{dict_item['job_name']}}
       __path__: {{dict_item['path']}}
-      {% if aws_install == true %}
-
-      instance: ${EC2_INSTANCE}
-      name: ${EC2_TAG_NAME}
-      role: ${EC2_TAG_ROLE}
-      {% endif %}
 
 {% endfor %}
 

@@ -35,7 +35,7 @@
     - promtail_system_user != "root"
 
 
-- name: create promtail config directory
+- name: Create promtail config directory
   file:
     path: "{{ promtail_config_dir }}"
     state: directory
