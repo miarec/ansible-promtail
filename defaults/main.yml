@@ -31,3 +31,9 @@ promtail_external_labels:
 promtail_aws_install: false
 promtail_aws_imdsv1_url: "http://169.254.169.254/latest/meta-data/"
 promtail_aws_imdsv1_data: []
+
+# promtail user veraiables
+promtail_system_user: "promtail"
+promtail_system_group: "{{ promtail_system_user }}"
+promtail_user_optional_groups:
+  - adm
