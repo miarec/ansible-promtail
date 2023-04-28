@@ -7,6 +7,13 @@ positions:
 
 clients:
   - url: {{ promtail_loki_url }}{{ promtail_loki_push_path }}
+
+{% if client_auth_user is defined %}
+    basic_auth:
+      username: {{ client_auth_user }}
+      password: {{ client_auth_password }}
+{% endif %}
+
     external_labels:
       {{ promtail_external_labels | to_nice_yaml(indent=2) | indent(6, False) }}
 
