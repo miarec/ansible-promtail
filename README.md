@@ -29,6 +29,10 @@ ansible role to install promtail as a service for log aggregation locally detail
     promtail_loki_url = "http://1.1.1.1:3100"
     ```
 
+  - `client_auth_user` user name used for basic authentication with Loki
+  - `client_auth_password` password used for basic authentication with Loki
+
+
 ### Promtail configuration variables
 The following variable defines what promtail will report to loki
 
