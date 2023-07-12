@@ -9,6 +9,9 @@ platforms:
     capabilities:
       - SYS_ADMIN
     command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
     # command: ${MOLECULE_DOCKER_COMMAND:-""}
     # volumes:
     #   - /sys/fs/cgroup:/sys/fs/cgroup:ro
