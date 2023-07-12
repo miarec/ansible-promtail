@@ -5,7 +5,8 @@ driver:
   name: docker
 platforms:
   - name: instance
-    image: geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu1804}-ansible:latest
+    # image: geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu1804}-ansible:latest
+    image: quay.io/centos/centos:centos7
     capabilities:
       - SYS_ADMIN
     command: /sbin/init
