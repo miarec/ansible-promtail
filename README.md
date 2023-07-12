@@ -1,4 +1,6 @@
 # ansible-promtail
+![CI](https://github.com/miarec/ansible-promtail/actions/workflows/ci.yml/badge.svg?event=push)
+
 ansible role to install promtail as a service for log aggregation locally detailed [here](https://grafana.com/docs/loki/latest/installation/local/)
 
 ## Overview
