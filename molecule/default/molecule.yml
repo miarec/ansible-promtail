@@ -6,7 +6,10 @@ driver:
 platforms:
   - name: instance
     image: geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu1804}-ansible:latest
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    capabilities:
+      - SYS_ADMIN
+    command: /sbin/init
+    # command: ${MOLECULE_DOCKER_COMMAND:-""}
     # volumes:
     #   - /sys/fs/cgroup:/sys/fs/cgroup:ro
     volumes:
